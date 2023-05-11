@@ -1,1 +1,1 @@
-/home/song/githubs/yaocccc/dwm/DEF/autostart.sh
+/home/song/scripts/1-shell/dwm/autostart.sh
