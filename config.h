@@ -65,10 +65,10 @@ static const char *tags[] = {
     "", // tag:2  key:3  desc:terminal3
     "󰕧", // tag:4  key:9  desc:obs
     "", // tag:5  key:c  desc:chrome
-    "", // tag:6  key:m  desc:music
+    "", // tag:6  key:y  desc:music
     "ﬄ", // tag:7  key:0  desc:qq
     "﬐", // tag:8  key:w  desc:wechat
-    "", // tag:9  key:l  desc:wxwork
+    "", // tag:9  key:none      desc:wxwork
 };
 
 /* 自定义窗口显示规则 */
@@ -208,8 +208,8 @@ static Key keys[] = {
     { 0, XF86XK_AudioRaiseVolume,     spawn,{.v = raisevolume }},
     { 0, XF86XK_AudioMute,            spawn,{.v = mutevolume }},
     /* songwupei keys end*/
-    { MODKEY|ShiftMask,    XK_Up,     spawn, SHCMD("$DWM/set_vol.sh up") },                                     /* super shift up   | 音量加                 */
-    { MODKEY|ShiftMask,    XK_Down,   spawn, SHCMD("$DWM/set_vol.sh down") },                                   /* super shift down | 音量减                 */
+    /*{ MODKEY|ShiftMask,    XK_Up,     spawn, SHCMD("$DWM/set_vol.sh up") },*/                                     /* super shift up   | 音量加                 */
+    /*{ MODKEY|ShiftMask,    XK_Down,   spawn, SHCMD("$DWM/set_vol.sh down") }, */                                  /* super shift down | 音量减                 */
     { MODKEY|ShiftMask,    XK_a,      spawn, SHCMD("flameshot gui -c -p ~/Pictures/screenshots") },             /* super shift a    | 截图                   */
     { MODKEY|ShiftMask,    XK_q,      spawn, SHCMD("kill -9 $(xprop | grep _NET_WM_PID | awk '{print $3}')") }, /* super shift q    | 选中某个窗口并强制kill */
 
@@ -222,7 +222,7 @@ static Key keys[] = {
     TAGKEYS(XK_9, 3, "obs")
     TAGKEYS(XK_c, 4, "firefox-esr")
     /*TAGKEYS(XK_c, 4, "google-chrome-stable")*/
-    TAGKEYS(XK_m, 5, "~/scripts/music_player.sh")
+    TAGKEYS(XK_y, 5, "~/scripts/music_player.sh")
     TAGKEYS(XK_0, 6, "linuxqq")
     TAGKEYS(XK_w, 7, "/opt/apps/com.qq.weixin.deepin/files/run.sh")
     /*TAGKEYS(XK_y, 8, "/opt/apps/com.qq.weixin.work.deepin/files/run.sh")*/
