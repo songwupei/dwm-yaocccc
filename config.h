@@ -43,12 +43,12 @@ static const unsigned int alphas[][3]    = {          /* 透明度设置 ColFg, 
     [SchemeStatusText] = { OPAQUE, 0x88, NULL },
 };
 /* commands */
-static const char *termcmd[]  = { "st", NULL };
+/*static const char *termcmd[]  = { "st", NULL }
+static const char *slockcmd[] = { "slock", NULL };
 static const char *raisevolume[] = {"sh","-c","pactl set-sink-volume @DEFAULT_SINK@ +3%",NULL};
 static const char *mutevolume[] = {"sh","-c"," pactl set-sink-mute @DEFAULT_SINK@ toggle ",NULL};
 static const char *lowervolume[] = {"sh","-c","pactl set-sink-volume @DEFAULT_SINK@ -3%",NULL};
-static const char *slockcmd[] = { "slock", NULL };
-
+*/
 /* 自定义脚本位置 */
 static const char *autostartscript = "$DWM/autostart.sh";
 static const char *statusbarscript = "$DWM/statusbar/statusbar.sh";
@@ -58,17 +58,17 @@ static const char scratchpadname[] = "scratchpad";
 
 /* 自定义tag名称 */
 /* 自定义特定实例的显示状态 */
-//            ﮸  ﭮ 切
+//            ﮸  ﭮ 切󰕧
 static const char *tags[] = { 
     "", // tag:0  key:1  desc:terminal1
     "", // tag:1  key:2  desc:terminal2
     "", // tag:2  key:3  desc:terminal3
-    "󰕧", // tag:4  key:9  desc:obs
+    "", // tag:4  key:4  desc:work
     "", // tag:5  key:c  desc:chrome
     "", // tag:6  key:y  desc:music
     "ﬄ", // tag:7  key:0  desc:qq
     "﬐", // tag:8  key:w  desc:wechat
-    "", // tag:9  key:none      desc:wxwork
+    "", // tag:9  key:v   desc:wxwork
 };
 
 /* 自定义窗口显示规则 */
@@ -86,7 +86,8 @@ static const Rule rules[] = {
     { NULL,                  NULL,                "图片查看",        0,            1,          0,          0,        -1,      0}, // 微信图片查看器      浮动
 
     /** 普通优先度 */
-    {"obs",                  NULL,                 NULL,             1 << 3,       0,          0,          0,        -1,      0}, // obs        tag -> 󰕧
+    /*{"obs",                  NULL,                 NULL,             1 << 3,       0,          0,          0,        -1,      0}, // obs        tag -> 󰕧*/
+    {"wps",                  NULL,                 NULL,             1 << 3,       0,          0,          0,        -1,      0}, // obs        tag -> 
     {"chrome",               NULL,                 NULL,             1 << 4,       0,          0,          0,        -1,      0}, // chrome     tag -> 
     {"Chromium",             NULL,                 NULL,             1 << 4,       0,          0,          0,        -1,      0}, // Chromium   tag -> 
     {"music",                NULL,                 NULL,             1 << 5,       1,          0,          1,        -1,      0}, // music      tag ->  浮动、无边框
@@ -198,19 +199,23 @@ static Key keys[] = {
     { MODKEY,              XK_Return, spawn, SHCMD("st") },                                                     /* super enter      | 打开st终端             */
     { MODKEY,              XK_minus,  spawn, SHCMD("st -c FG") },                                               /* super +          | 打开全局st终端         */
     { MODKEY,              XK_space,  spawn, SHCMD("st -c float") },                                            /* super space      | 打开浮动st终端         */
-    { MODKEY,              XK_F1,     spawn, SHCMD("killall pcmanfm || pcmanfm") },                             /* super F1         | 打开/关闭pcmanfm       */
-    { MODKEY,              XK_d,      spawn, SHCMD("rofi -show run") },                                         /* super d          | rofi: 执行run          */
-    { MODKEY,              XK_p,      spawn, SHCMD("$DWM/rofi.sh") },                                           /* super p          | rofi: 执行自定义脚本   */
+    /*{ MODKEY,              XK_F1,     spawn, SHCMD("killall pcmanfm || pcmanfm") },                            */ /* super F1         | 打开/关闭pcmanfm       */
+    { MODKEY,              XK_p,      spawn, SHCMD("rofi -show run") },                                         /* super p          | rofi: 执行run          */
+    { MODKEY,              XK_d,      spawn, SHCMD("$DWM/rofi.sh") },                                           /* super d          | rofi: 执行自定义脚本   */
     /*{ MODKEY,              XK_n,      spawn, SHCMD("$DWM/blurlock.sh") },*/                                   /* super n          | 锁定屏幕               */
     /* songwupei keys*/
-    { Mod1Mask,            XK_l,      spawn, {.v = slockcmd }},                                                 /* alt l          | 锁定屏幕               */
-    { 0, XF86XK_AudioLowerVolume,     spawn,{.v = lowervolume }},
-    { 0, XF86XK_AudioRaiseVolume,     spawn,{.v = raisevolume }},
-    { 0, XF86XK_AudioMute,            spawn,{.v = mutevolume }},
+    { Mod1Mask,            XK_l,      spawn,SHCMD("slock") },                                                 /* alt l          | 锁定屏幕               */
+    /*
+    { MODKEY|ShiftMask,    XK_Up,     spawn, SHCMD("$DWM/set_vol.sh up") },*/                                     /* super shift up   | 音量加                 */
+    /*{ MODKEY|ShiftMask,    XK_Down,   spawn, SHCMD("$DWM/set_vol.sh down") },*/                                  /* super shift down | 音量减                 */
+    /*{ 0, XF86XK_AudioMute,            spawn,{.v = mutevolume }},
+    */
     /* songwupei keys end*/
-    /*{ MODKEY|ShiftMask,    XK_Up,     spawn, SHCMD("$DWM/set_vol.sh up") },*/                                     /* super shift up   | 音量加                 */
-    /*{ MODKEY|ShiftMask,    XK_Down,   spawn, SHCMD("$DWM/set_vol.sh down") }, */                                  /* super shift down | 音量减                 */
-    { MODKEY|ShiftMask,    XK_a,      spawn, SHCMD("flameshot gui -c -p ~/Pictures/screenshots") },             /* super shift a    | 截图                   */
+    { 0, XF86XK_AudioLowerVolume,     spawn,SHCMD("$DWM/set_vol.sh down")},
+    { 0, XF86XK_AudioMute,     spawn,SHCMD("$DWM/set_vol.sh mute")},
+    { 0, XF86XK_AudioRaiseVolume,     spawn,SHCMD("$DWM/set_vol.sh up")},
+    { 0 ,    XK_Print,      spawn, SHCMD("flameshot gui -c -p ~/Pictures/screenshots") },             /* super shift a    | 截图                   */
+   /* { MODKEY|ShiftMask,    XK_a,      spawn, SHCMD("flameshot gui -c -p ~/Pictures/screenshots") },            */ /* super shift a    | 截图                   */
     { MODKEY|ShiftMask,    XK_q,      spawn, SHCMD("kill -9 $(xprop | grep _NET_WM_PID | awk '{print $3}')") }, /* super shift q    | 选中某个窗口并强制kill */
 
     /* super key : 跳转到对应tag (可附加一条命令 若目标目录无窗口，则执行该命令) */
@@ -219,11 +224,12 @@ static Key keys[] = {
     TAGKEYS(XK_1, 0, 0)
     TAGKEYS(XK_2, 1, 0)
     TAGKEYS(XK_3, 2, 0)
-    TAGKEYS(XK_9, 3, "obs")
+    TAGKEYS(XK_4, 3, "wps")
+    /*TAGKEYS(XK_9, 3, "obs")*/
     TAGKEYS(XK_c, 4, "firefox-esr")
     /*TAGKEYS(XK_c, 4, "google-chrome-stable")*/
     TAGKEYS(XK_y, 5, "~/scripts/music_player.sh")
-    TAGKEYS(XK_0, 6, "linuxqq")
+    /*TAGKEYS(XK_0, 6, "linuxqq")*/
     TAGKEYS(XK_w, 7, "/opt/apps/com.qq.weixin.deepin/files/run.sh")
     /*TAGKEYS(XK_y, 8, "/opt/apps/com.qq.weixin.work.deepin/files/run.sh")*/
 };
@@ -238,7 +244,7 @@ static Button buttons[] = {
     { ClkClientWin,        MODKEY,          Button3,          resizemouse,   {0} },                                   // super+右键  |  拖拽窗口     |  改变窗口大小
     /* 点击tag操作 */
     { ClkTagBar,           0,               Button1,          view,          {0} },                                   // 左键        |  点击tag      |  切换tag
-	{ ClkTagBar,           0,               Button3,          toggleview,    {0} },                                   // 右键        |  点击tag      |  切换是否显示tag
+    { ClkTagBar,           0,               Button3,          toggleview,    {0} },                                   // 右键        |  点击tag      |  切换是否显示tag
     { ClkTagBar,           MODKEY,          Button1,          tag,           {0} },                                   // super+左键  |  点击tag      |  将窗口移动到对应tag
     { ClkTagBar,           0,               Button4,          viewtoleft,    {0} },                                   // 鼠标滚轮上  |  tag          |  向前切换tag
 	{ ClkTagBar,           0,               Button5,          viewtoright,   {0} },                                   // 鼠标滚轮下  |  tag          |  向后切换tag
@@ -250,6 +256,6 @@ static Button buttons[] = {
     { ClkStatusText,       0,               Button5,          clickstatusbar,{0} },                                   // 鼠标滚轮下  |  状态栏       |  根据状态栏的信号执行 ~/scripts/dwmstatusbar.sh $signal D
                                                                                                                       //
     /* 点击bar空白处 */
-    { ClkBarEmpty,         0,               Button1,          spawn, SHCMD("~/scripts/call_rofi.sh window") },        // 左键        |  bar空白处    |  rofi 执行 window
-    { ClkBarEmpty,         0,               Button3,          spawn, SHCMD("~/scripts/call_rofi.sh drun") },          // 右键        |  bar空白处    |  rofi 执行 drun
+   /* { ClkBarEmpty,         0,               Button1,          spawn, SHCMD("~/scripts/call_rofi.sh window") },        // 左键        |  bar空白处    |  rofi 执行 window */
+    /*{ ClkBarEmpty,         0,               Button3,          spawn, SHCMD("~/scripts/call_rofi.sh drun") },          // 右键        |  bar空白处    |  rofi 执行 drun */
 };
